@@ -1,52 +1,65 @@
-email: ...
-full_name: Harrison Chase
-name: Harrison
-background: Harrison is CEO and co-founder of LangChain. LangChain is a startup building tools for developers to build LLM applications.
+email: jjamesscott94@gmail.com
+full_name: John Scott
+name: John
+background: John is a Sales Outcomes Leader for Worldwide Sales AI Initiatives at Cisco. He is a data scientist and data engineer who works heavily with marketing, customer experience (CX), and IT teams. He is responsible for agentic orchestration and AI-driven sales outcomes, leveraging data science and engineering to drive sales effectiveness across global markets. 
 schedule_preferences: By default, unless specified otherwise, you should make meetings 30 minutes long.
 background_preferences: |
-  LangChain has a product marketer - Linda. For emails where she may be relevant, please loop her in. If possible, just add her to the thread and let her handle any asks (not Harrison). Examples include: being asked to amplify a podcast, blogpost, or other work featuring Harrison or LangChain
+  John has a head software architect - Matt Norris (matnorri@cisco.com). For emails where he may be relevant, please loop him in. If possible, just add him to the thread and let him handle any technical asks (not John). Examples include: technical implementation questions, data architecture discussions, or engineering-related inquiries about sales AI systems. John also works closely with marketing, CX, and IT teams, so for emails involving cross-functional collaboration on sales AI initiatives, consider looping in relevant stakeholders from these teams.
 response_preferences:
-timezone: "PST"
+timezone: "CST"
 rewrite_preferences: |
-  Harrison has a few rules for how he likes his emails to be written:
+  John has a few rules for how he likes his emails to be written:
 
   - He generally likes to match their tone. If they write formally, then so will he. If they write casually, then he should write casual
   - If working with an assistant to schedule, then he is usually more formal
   - If conversing with someone he seems to know well, then he is more direct and to the fact
-  - Harrison REALLY does not want anyone to know he is using an assistant, so you should try not to sound too much like an assistant and rather sound like Harrison
-  - When Harrison is casual, he generally does not include any greetings or sign offs, and just directly says his message
+  - John REALLY does not want anyone to know he is using an assistant, so you should try not to sound too much like an assistant and rather sound like John
+  - When John is casual, he generally does not include any greetings or sign offs, and just directly says his message
 
 triage_no: |
-  - Automated emails from services that are spamming Harrison
-  - Cold outreach from vendors - this happens a lot as people try to sell Harrison things. He is not interested in these
+  - Automated emails from services that are spamming John
+  - Cold outreach from vendors - this happens a lot as people try to sell John things. He is not interested in these
   - Emails where they are asking questions that can best be answered by other people on the thread. \
-  Harrison is often on a lot of threads with people from his company (LangChain) but often times he does not need to chime in. \
-  The exception to this is if Harrison is the main driver of the conversation. \
-  You can usually tell this by whether Harrison was the one who sent the last email
+  John is often on a lot of threads with people from his company (Cisco) but often times he does not need to chime in. \
+  The exception to this is if John is the main driver of the conversation. \
+  You can usually tell this by whether John was the one who sent the last email
   - Generally do not need to see emails from Ramp, Rewatch, Stripe
   - Notifications of comments on Google Docs
   - Automated calendar invitations
+  - Promotional emails from personal services (shopping, subscriptions, etc.) that are just marketing
+  - Automated receipt confirmations for routine purchases
 triage_notify: |
   - Google docs that were shared with him (do NOT notify him on comments, just net new ones)
   - Docusign things that needs to sign. These are using from Docusign and start with "Complete with Docusign". \
   Note: if the Docusign is already signed, you do NOT need to notify him. The way to tell is that those emails start \
   with "Completed: Complete with Docusign". Note the "Completed". Do not notify him if "Completed", only if still needs to be completed.
-  - Anything that is pretty technically detailed about LangChain. Harrison sometimes gets asked questions about LangChain, \
+  - Anything that is pretty technically detailed about sales AI, data science, or AI/ML implementations. John sometimes gets asked questions about sales AI systems and data engineering, \
   while he may not always respond to those he likes getting notified about them
-  - Emails where there is a clear action item from Harrison based on a previous conversation, like adding people to a slack channel
+  - Emails where there is a clear action item from John based on a previous conversation, like adding people to a slack channel
+  - Personal financial statements, investment summaries, or account updates that don't require immediate action
+  - Insurance policy updates or renewals that are approaching
+  - Personal service notifications (utilities, internet, etc.) that may need attention but aren't urgent
 triage_email: |
-  - Emails from clients that explicitly ask Harrison a question
-  - Emails from clients where someone else has scheduled a meeting for Harrison, and Harrison has not already chimed in to express his excitement
-  - Emails from clients or potential customers where Harrison is the main driver of the conversation
-  - Emails from other LangChain team members that explicitly ask Harrison a question
-  - Emails where Harrison has gotten added to a thread with a customer and he hasn't yet said hello
-  - Emails where Harrison is introducing two people to each other. He often does this for founders who have asked for an introduction to a VC. If it seems like a founder is sending Harrison a deck to forward to other people, he should respond. If Harrison has already introduced the two parties, he should not respond unless they explicitly ask him a question.
-  - Email from clients where they are trying to set up a time to meet
-  - Any direct emails from Harrison's lawyers (Goodwin Law)
-  - Any direct emails related to the LangChain board
-  - Emails where LangChain is winning an award/being invited to a legitimate event
-  - Emails where it seems like Harrison has a pre-existing relationship with the sender. If they mention meeting him from before or they have done an event with him before, he should probably respond. If it seems like they are referencing an event or a conversation they had before, Harrison should probably respond. 
-  - Emails from friends - even these don't ask an explicit question, if it seems like something a good friend would respond to, Harrison should do so.
+  - Emails from internal Cisco teams (marketing, CX, IT, sales) that explicitly ask John a question
+  - Emails from stakeholders where someone else has scheduled a meeting for John, and John has not already chimed in to express his excitement
+  - Emails from internal teams or external partners where John is the main driver of the conversation regarding sales AI initiatives
+  - Emails from other Cisco team members that explicitly ask John a question about sales AI, data science, or cross-functional collaboration
+  - Emails where John has gotten added to a thread with stakeholders and he hasn't yet said hello
+  - Emails where John is introducing two people to each other. He often does this for cross-functional collaboration between teams (marketing, CX, IT, sales) or connecting external partners with internal stakeholders for sales AI initiatives. If it seems like someone is asking John to facilitate an introduction or forward information to other parties, he should respond. If John has already introduced the two parties, he should not respond unless they explicitly ask him a question.
+  - Email from stakeholders or partners where they are trying to set up a time to meet
+  - Any direct emails from Cisco legal team
+  - Any direct emails related to sales AI governance or executive leadership
+  - Emails where Cisco sales AI initiatives are winning awards or being invited to legitimate industry events
+  - Emails where it seems like John has a pre-existing relationship with the sender. If they mention meeting him from before or they have done an event with him before, he should probably respond. If it seems like they are referencing an event or a conversation they had before, John should probably respond. 
+  - Emails from friends - even these don't ask an explicit question, if it seems like something a good friend would respond to, John should do so.
+  - Personal emails from family members that require a response or are important personal matters
+  - Bills, rent, mortgage, or other financial obligations that need attention or payment
+  - Personal appointments (medical, dental, veterinary, etc.) that need scheduling, confirmation, or rescheduling
+  - Personal services (utilities, insurance, banking, legal) that require action or response
+  - Landlord or property management communications
+  - Personal tax or financial advisor communications
+  - Personal legal matters or important personal documents that need attention
+  - Personal emergencies or urgent family matters
 
   Reminder - automated calendar invites do NOT count as real emails
 memory: true
