@@ -25,8 +25,18 @@ Table of contents
 ### Env
 
 1. Fork and then clone this repo. Note: make sure to fork it first, as in order to deploy this you will need your own repo.
-2. Create a Python virtualenv and activate it (e.g. `pyenv virtualenv 3.11.1 eaia`, `pyenv activate eaia`)
-3. Run `pip install -e .` to install dependencies and the package
+2. **Python Version**: Use Python 3.11.x (required due to PyO3/tiktoken compatibility issues with Python 3.13+)
+3. Install Poetry if not already installed: `pip install poetry`
+4. Set up the environment:
+   ```bash
+   poetry install
+   ```
+   
+   **Note**: If you encounter build errors with tiktoken on Python 3.13+, run:
+   ```bash
+   export PYO3_USE_ABI3_FORWARD_COMPATIBILITY=1
+   poetry install
+   ```
 
 ### Set up credentials
 
@@ -40,14 +50,49 @@ Table of contents
 > Note: If you're using a personal email (non-Google Workspace), select "External" as the User Type in the OAuth consent screen. With "External" selected, you must add your email as a test user in the Google Cloud Console under "OAuth consent screen" > "Test users" to avoid the "App has not completed verification" error. The "Internal" option only works for Google Workspace accounts.
 
 4. Download the client secret. After that, run these commands:
-5. `mkdir eaia/.secrets` - This will create a folder for secrets
+5. `mkdir -p eaia/.secrets` - This will create a folder for secrets
 6. `mv ${PATH-TO-CLIENT-SECRET.JSON} eaia/.secrets/secrets.json` - This will move the client secret you just created to that secrets folder
-7. `python scripts/setup_gmail.py` - This will generate another file at `eaia/.secrets/token.json` for accessing Google services.
-8. Export LangSmith API key (`export LANGSMITH_API_KEY`)
+7. Set up Gmail OAuth token:
+   ```bash
+   poetry run python scripts/setup_gmail.py
+   ```
+   This will:
+   - Open a browser window for Gmail authentication
+   - Prompt you to sign in with your Gmail account
+   - Request permissions for Gmail and Calendar access
+   - Generate `eaia/.secrets/token.json` automatically
+   
+   **Complete the OAuth flow** by:
+   - Clicking the authorization URL that appears in the terminal
+   - Signing in with your Gmail account
+   - Granting the requested permissions
+   - The script will automatically capture the token when you're redirected
+
+8. Set up environment variables:
+   ```bash
+   export OPENAI_API_KEY="your_openai_key"
+   export ANTHROPIC_API_KEY="your_anthropic_key"
+   export LANGSMITH_API_KEY="your_langsmith_key"
+   ```
+   
+   **Optional**: Create a `.env` file in the project root for persistent environment variables:
+   ```bash
+   echo "OPENAI_API_KEY=your_openai_key" >> .env
+   echo "ANTHROPIC_API_KEY=your_anthropic_key" >> .env
+   echo "LANGSMITH_API_KEY=your_langsmith_key" >> .env
+   ```
 
 ### Configuration
 
-The configuration for EAIA can be found in `eaia/main/config.yaml`. Every key in there is required. These are the configuration options:
+The configuration for EAIA can be found in `eaia/main/config.yaml`. Every key in there is required. 
+
+**Important**: Update the configuration with your personal details:
+- Replace all email addresses with your Gmail account
+- Update name, background, timezone, and preferences
+- Customize triage rules for your specific needs (work vs personal emails)
+- Update any company-specific information (e.g., replace LangChain references with your organization)
+
+These are the configuration options:
 
 - `email`: Email to monitor and send emails as. This should match the credentials you loaded above.
 - `full_name`: Full name of user
@@ -70,8 +115,19 @@ See [this section](#run-in-production--langgraph-cloud-) for instructions on how
 
 ### Set up EAIA locally
 
-1. Install development server `pip install -U "langgraph-cli[inmem]"`
-2. Run development server `langgraph dev`
+1. Install development server:
+   ```bash
+   poetry add --group dev "langgraph-cli[inmem]"
+   ```
+   Or if you prefer to install globally:
+   ```bash
+   pip install -U "langgraph-cli[inmem]"
+   ```
+
+2. Run development server:
+   ```bash
+   langgraph dev
+   ```
 
 ### Ingest Emails Locally
 
@@ -80,7 +136,7 @@ Let's now kick off an ingest job to ingest some emails and run them through our 
 Leave the `langgraph dev` command running, and open a new terminal. From there, get back into this directory and virtual environment. To kick off an ingest job, run:
 
 ```shell
-python scripts/run_ingest.py --minutes-since 120 --rerun 1 --early 0
+poetry run python scripts/run_ingest.py --minutes-since 120 --rerun 1 --early 0
 ```
 
 This will ingest all emails in the last 120 minutes (`--minutes-since`). It will NOT break early if it sees an email it already saw (`--early 0`) and it will
@@ -132,7 +188,7 @@ First, get your `LANGGRAPH_CLOUD_URL`
 To kick off an ingest job, run:
 
 ```shell
-python scripts/run_ingest.py --minutes-since 120 --rerun 1 --early 0 --url ${LANGGRAPH-CLOUD-URL}
+poetry run python scripts/run_ingest.py --minutes-since 120 --rerun 1 --early 0 --url ${LANGGRAPH-CLOUD-URL}
 ```
 
 This will ingest all emails in the last 120 minutes (`--minutes-since`). It will NOT break early if it sees an email it already saw (`--early 0`) and it will
@@ -157,7 +213,7 @@ You probably don't want to manually run ingest all the time. Using LangGraph Pla
 that runs on some schedule to check for new emails. You can set this up with:
 
 ```shell
-python scripts/setup_cron.py --url ${LANGGRAPH-CLOUD-URL}
+poetry run python scripts/setup_cron.py --url ${LANGGRAPH-CLOUD-URL}
 ```
 
 ## Advanced Options
@@ -178,3 +234,80 @@ To control the logic used for the tone and style of emails you can edit `eaia/ma
 
 **Email Draft Logic**
 To control the logic used for drafting emails you can edit `eaia/main/draft_response.py`
+
+## Troubleshooting
+
+### Common Issues
+
+#### 1. Dependency Version Conflicts
+
+**Error**: `langsmith>=0.3.45, we can conclude that eaia==0.1.0 cannot be used`
+
+**Solution**: This happens when deploying to LangGraph Cloud. Update your `pyproject.toml`:
+```toml
+langsmith = "^0.3.45"  # Instead of "^0.2"
+```
+Then run:
+```bash
+poetry update langsmith
+git add pyproject.toml poetry.lock
+git commit -m "Fix langsmith version for LangGraph deployment"
+git push
+```
+
+#### 2. Python Version Compatibility
+
+**Error**: `error: the configured Python interpreter version (3.13) is newer than PyO3's maximum supported version (3.12)`
+
+**Solution**: Use Python 3.11.x or set the compatibility flag:
+```bash
+export PYO3_USE_ABI3_FORWARD_COMPATIBILITY=1
+poetry install
+```
+
+#### 3. Gmail Authentication Issues
+
+**Error**: `ModuleNotFoundError: No module named 'eaia'`
+
+**Solution**: Use Poetry to run the script:
+```bash
+poetry run python scripts/setup_gmail.py
+```
+
+**Error**: "App has not completed verification"
+
+**Solution**: For personal Gmail accounts:
+1. In Google Cloud Console, go to "OAuth consent screen"
+2. Select "External" as User Type
+3. Add your email as a test user under "Test users"
+
+#### 4. Environment Variables
+
+Make sure to set all required environment variables:
+```bash
+export OPENAI_API_KEY="your_openai_key"
+export ANTHROPIC_API_KEY="your_anthropic_key" 
+export LANGSMITH_API_KEY="your_langsmith_key"
+```
+
+For LangGraph Cloud deployment, also set:
+- `GMAIL_SECRET` - Contents of `eaia/.secrets/secrets.json`
+- `GMAIL_TOKEN` - Contents of `eaia/.secrets/token.json`
+
+#### 5. Configuration Issues
+
+**Issue**: Default configuration references LangChain/Harrison
+
+**Solution**: Update `eaia/main/config.yaml` with your personal details:
+- Change email addresses to your Gmail account
+- Update name, background, timezone
+- Customize triage rules for your work/personal context
+- Replace company-specific references
+
+### Getting Help
+
+If you encounter other issues:
+1. Check the deployment logs in LangGraph Cloud
+2. Verify all environment variables are set correctly
+3. Ensure your Gmail API credentials have the correct scopes
+4. Test locally first before deploying to production
